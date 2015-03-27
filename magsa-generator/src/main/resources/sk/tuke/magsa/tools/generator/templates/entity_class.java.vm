@@ -1,0 +1,85 @@
+#set( $entity = $item )
+package $package;
+
+import sk.tuke.magsa.framework.Entity;
+
+public class $name extends Entity {
+    private static final long serialVersionUID = 1L;
+#set($result="")
+#foreach( $property in $entity.properties )
+#set( $pname = $property.name )
+
+
+    #if ($property.Type.toString() == "REAL")
+            private Double $pname;
+            public Double get$generator.toUCIdent($pname)() 
+            {
+                return $pname;
+            }
+
+            public void set$generator.toUCIdent($property.name)(Double $pname) 
+            {
+                this.$pname = $pname;
+            }
+
+    #else
+       #if ($property.Type.toString() == "INTEGER")
+            private Integer $pname;
+            public Integer get$generator.toUCIdent($pname)() 
+            {
+                return $pname;
+            }
+
+            public void set$generator.toUCIdent($property.name)(Integer $pname) 
+            {
+                this.$pname = $pname;
+            }
+       #else
+            private String $pname;
+            public String get$generator.toUCIdent($pname)() 
+            {
+                return $pname;
+            }
+
+
+            public void set$generator.toUCIdent($property.name)(String $pname) 
+            {
+                this.$pname = $pname;
+            }
+        #end
+    #end    
+#end
+
+
+#foreach( $reference in $entity.outgoingReferences )
+#set( $pname = $reference.to.name )
+#set( $ptype = "Integer" )
+
+            private $ptype $generator.toLCIdent($pname);
+
+            public $ptype get$generator.toUCIdent($pname)() 
+            {
+                return $generator.toLCIdent($pname);
+            }
+
+            public void set$generator.toUCIdent($pname)($ptype $pname) 
+            {
+                this.$generator.toLCIdent($pname) = $pname;
+            }
+
+#end 
+
+
+            public String toString()
+            {
+                #set($result ="")
+                #foreach( $property in $entity.properties )
+                #set($temp= $property.name +":"+ $property.type.toString())
+                #set($result = "$result $temp ")
+                #end
+                return "$result";
+            }
+   
+
+
+}

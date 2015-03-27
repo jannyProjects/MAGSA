@@ -1,0 +1,8 @@
+#set( $entity = $item )
+package $package;
+
+import sk.tuke.magsa.framework.CRUDDao;
+import ${generator.formatQualifiedName($entity.name, "entity_class")};
+
+public interface $name extends CRUDDao<${generator.formatName($entity.name, "entity_class")}> {
+}

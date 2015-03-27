@@ -1,0 +1,107 @@
+#set( $entity = $item )
+#set( $entityName = $generator.formatName($entity.name, "entity_class") )
+package $package;
+
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import sk.tuke.magsa.framework.CRUDDaoImpl;
+import sk.tuke.magsa.framework.ValidatorException;
+import sk.tuke.magsa.framework.ConnectionPool;
+import ${generator.formatQualifiedName($entity.name, "entity_class")};
+import ${generator.formatQualifiedName($entity.name, "dao_interface")};
+
+public class $name extends CRUDDaoImpl<${entityName}> implements ${generator.formatName($entity.name, "dao_interface")} {
+
+
+#set( $constraintsDir = "/sk/tuke/magsa/tools/generator/templates/constraint/" )
+
+    public $name(ConnectionPool pool) {
+        super(pool);
+    }    
+
+    protected PreparedStatement prepareInsertStatement(Connection connection, ${entityName} object) throws SQLException {
+#set($str = "")
+        String query = "INSERT INTO $item.name (#foreach($property in $item.properties)$property.name#set($str="${str}?")#if($velocityHasNext)#set($str="${str}, "), #end#end#foreach($reference in $item.outgoingReferences), ident_${reference.to.name}#set($str="${str}, ?")#end) VALUES ($str)";
+        PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+#set( $n = 1 )
+#foreach($property in $item.properties)
+        pstm.${generator.psSetMethod($property.type)}($n, object.get${generator.toUCIdent($property.name)}());
+#set( $n  = $n + 1 )
+#end
+
+#set( $x = 1 )
+#foreach($reference in $item.outgoingReferences)
+pstm.setInt($n, object.get${generator.toUCIdent($reference.to.name)}());
+#set( $x  = $x + 1 )
+#end
+
+        return pstm;
+    }
+
+   protected PreparedStatement prepareUpdateStatement(Connection connection, ${entityName} object) throws SQLException {
+        #set($str = "")
+        String query = "UPDATE $item.name SET #foreach($property in $item.properties)$property.name=?#if($velocityHasNext),#end#end WHERE ident =" + object.getIdent();
+    
+  PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);  
+#set( $n = 1 )
+#foreach($property in $item.properties)
+        pstm.${generator.psSetMethod($property.type)}($n, object.get${generator.toUCIdent($property.name)}());
+#set( $n  = $n + 1 )
+#end
+
+#set( $x = 1 )
+#foreach($reference in $item.outgoingReferences)
+pstm.setInt($n, object.get${generator.toUCIdent($reference.to.name)}());
+#set( $x  = $x + 1 )
+#end
+return pstm;
+}
+
+    protected PreparedStatement prepareDeleteStatement(Connection connection, ${entityName} object) throws SQLException {
+        String query = "DELETE FROM $item.name WHERE ident =" + object.getIdent();
+
+        PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);      
+        return pstm;
+    }
+
+    protected PreparedStatement prepareFindStatement(Connection connection, Integer id) throws SQLException {
+        String query = "SELECT * FROM $item.name WHERE ident="+id;
+PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);      
+
+        return pstm;
+    }
+
+    protected PreparedStatement prepareSelectStatement(Connection connection) throws SQLException {
+         String query = "SELECT * FROM $item.name";
+PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);      
+
+        return pstm;
+    }
+
+    protected ${entity.name} createFromResultSet(ResultSet rs) throws SQLException {
+        ${entityName} result = new ${generator.toUCIdent($item.name)}();
+        result.setIdent(rs.getInt("ident"));
+#set($n=1)
+#foreach($property in $item.properties)
+        result.set${generator.toUCIdent($property.name)}(rs.${generator.rsGetMethod($property.type)}("$property.name"));
+#end
+#foreach($reference in $item.outgoingReferences)
+        result.set${generator.toUCIdent($reference.to.name)}(rs.getInt("$reference.to.name"));
+#end
+return result;
+    }
+
+    @Override
+    protected void test(${entityName} object) {
+    #foreach ($property in $entity.properties)
+    #foreach( $constraint in $property.constraints )
+    #set( $file = $constraintsDir + $constraint.getClass().getSimpleName() + ".vm" )
+    #parse( $file )
+    #end        
+    #end
+    }
+
+}

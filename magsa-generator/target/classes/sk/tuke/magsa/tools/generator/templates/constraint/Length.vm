@@ -1,0 +1,14 @@
+if(object.get${generator.toUCIdent($property.name)}() != null)
+{
+    if(object.get${generator.toUCIdent($property.name)}().length() > $constraint.getMinLength() &&
+        object.get${generator.toUCIdent($property.name)}().length() < $constraint.getMaxLength() )
+    {        
+    }
+    else
+    {
+        throw new ValidatorException ("Wrong property length $property.name: value must be from $constraint.MinLength to $constraint.MaxLength");
+    }
+}
+
+   
+ 

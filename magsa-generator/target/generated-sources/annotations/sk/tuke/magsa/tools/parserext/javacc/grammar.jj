@@ -1,0 +1,236 @@
+options {
+  USER_TOKEN_MANAGER = true;
+}
+
+PARSER_BEGIN(Parser)
+package sk.tuke.magsa.tools.parserext.javacc;
+
+public class Parser {}
+
+PARSER_END(Parser)
+
+sk.tuke.magsa.tools.metamodel.Model parse() :
+{
+  sk.tuke.magsa.tools.metamodel.Model _value;
+}
+{
+  _value = ModelSymbol() <EOF>
+  {return _value;}
+}
+
+sk.tuke.magsa.tools.metamodel.Entity EntitySymbol() :
+{
+  java.lang.String name_1 = null;
+  Token _tokenname_1 = null;
+  sk.tuke.magsa.tools.metamodel.Property[] properties_1 = null;
+  java.util.List<sk.tuke.magsa.tools.metamodel.Property> _listproperties_1 = new java.util.ArrayList<sk.tuke.magsa.tools.metamodel.Property>();
+  sk.tuke.magsa.tools.metamodel.Property _itemproperties_1 = null;
+}
+{
+((      <ENTITY>
+(        _tokenname_1 = <NAME>  {name_1 = _tokenname_1.image;}
+)
+
+      <_123>
+((          _itemproperties_1 = PropertySymbol()  {_listproperties_1.add(_itemproperties_1);}
+          ( LOOKAHEAD(  PropertySymbol()) 
+            _itemproperties_1 = PropertySymbol()  {_listproperties_1.add(_itemproperties_1);})*
+          
+
+)  {properties_1 = _listproperties_1.toArray(new sk.tuke.magsa.tools.metamodel.Property[] {});}
+
+)
+
+      <_125>
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.Entity( name_1, properties_1), (Object)name_1, properties_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.Model ModelSymbol() :
+{
+  sk.tuke.magsa.tools.metamodel.Entity[] entities_1 = null;
+  java.util.List<sk.tuke.magsa.tools.metamodel.Entity> _listentities_1 = new java.util.ArrayList<sk.tuke.magsa.tools.metamodel.Entity>();
+  sk.tuke.magsa.tools.metamodel.Entity _itementities_1 = null;
+  sk.tuke.magsa.tools.metamodel.Reference[] references_1 = null;
+  java.util.List<sk.tuke.magsa.tools.metamodel.Reference> _listreferences_1 = new java.util.ArrayList<sk.tuke.magsa.tools.metamodel.Reference>();
+  sk.tuke.magsa.tools.metamodel.Reference _itemreferences_1 = null;
+}
+{
+((((          _itementities_1 = EntitySymbol()  {_listentities_1.add(_itementities_1);}
+          ( LOOKAHEAD(  EntitySymbol()) 
+            _itementities_1 = EntitySymbol()  {_listentities_1.add(_itementities_1);})*
+          
+
+)  {entities_1 = _listentities_1.toArray(new sk.tuke.magsa.tools.metamodel.Entity[] {});}
+
+)
+
+((          ( LOOKAHEAD(  ReferenceSymbol()) 
+            _itemreferences_1 = ReferenceSymbol()  {_listreferences_1.add(_itemreferences_1);})*
+          
+
+)  {references_1 = _listreferences_1.toArray(new sk.tuke.magsa.tools.metamodel.Reference[] {});}
+
+)
+
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.Model( entities_1, references_1), (Object)entities_1, references_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.Property PropertySymbol() :
+{
+  java.lang.String name_1 = null;
+  Token _tokenname_1 = null;
+  sk.tuke.magsa.tools.metamodel.Type type_1 = null;
+  sk.tuke.magsa.tools.metamodel.constraints.Constraint[] constraints_1 = null;
+  java.util.List<sk.tuke.magsa.tools.metamodel.constraints.Constraint> _listconstraints_1 = new java.util.ArrayList<sk.tuke.magsa.tools.metamodel.constraints.Constraint>();
+  sk.tuke.magsa.tools.metamodel.constraints.Constraint _itemconstraints_1 = null;
+}
+{
+(((        _tokenname_1 = <NAME>  {name_1 = _tokenname_1.image;}
+)
+
+      <_58>
+(        type_1 = TypeSymbol()  {}
+)
+
+(        ( LOOKAHEAD((    constraints_ConstraintSymbol()
+    ( (        <_44>
+        constraints_ConstraintSymbol()
+))*
+
+)) 
+(            _itemconstraints_1 = constraints_ConstraintSymbol()  {_listconstraints_1.add(_itemconstraints_1);}
+            ( LOOKAHEAD((    <_44>
+    constraints_ConstraintSymbol()
+)) 
+(                <_44>
+                _itemconstraints_1 = constraints_ConstraintSymbol()  {_listconstraints_1.add(_itemconstraints_1);}
+)
+)*
+            
+
+)
+)?
+          {constraints_1 = _listconstraints_1.toArray(new sk.tuke.magsa.tools.metamodel.constraints.Constraint[] {});}
+
+)
+
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.Property( name_1, type_1, constraints_1), (Object)name_1, type_1, constraints_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.Reference ReferenceSymbol() :
+{
+  java.lang.String from_1 = null;
+  Token _tokenfrom_1 = null;
+  java.lang.String to_1 = null;
+  Token _tokento_1 = null;
+}
+{
+((      <REFERENCE>
+(        _tokenfrom_1 = <NAME>  {from_1 = _tokenfrom_1.image;}
+)
+
+(        _tokento_1 = <NAME>  {to_1 = _tokento_1.image;}
+)
+
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.Reference( from_1, to_1), (Object)from_1, to_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.Type TypeSymbol() :
+{
+}
+{
+(LOOKAHEAD(  <INTEGER>)    <INTEGER>  {return sk.tuke.magsa.tools.metamodel.Type.INTEGER;}
+   |
+LOOKAHEAD(  <REAL>)    <REAL>  {return sk.tuke.magsa.tools.metamodel.Type.REAL;}
+   |
+LOOKAHEAD(  <STRING>)    <STRING>  {return sk.tuke.magsa.tools.metamodel.Type.STRING;}
+)
+}
+
+sk.tuke.magsa.tools.metamodel.constraints.Constraint constraints_ConstraintSymbol() :
+{
+  sk.tuke.magsa.tools.metamodel.constraints.Constraint _value = null;
+}
+{
+(LOOKAHEAD(  constraints_LengthSymbol())    _value = constraints_LengthSymbol()
+   |
+LOOKAHEAD(  constraints_RequiredSymbol())    _value = constraints_RequiredSymbol()
+   |
+LOOKAHEAD(  constraints_RegexSymbol())    _value = constraints_RegexSymbol()
+   |
+LOOKAHEAD(  constraints_RangeSymbol())    _value = constraints_RangeSymbol()
+)  {return _value;}
+}
+
+sk.tuke.magsa.tools.metamodel.constraints.Length constraints_LengthSymbol() :
+{
+  int min_1 = 0;
+  Token _tokenmin_1 = null;
+  int max_1 = 0;
+  Token _tokenmax_1 = null;
+}
+{
+((      <LENGTH>
+(        _tokenmin_1 = <INT_VALUE>  {min_1 = Integer.parseInt(_tokenmin_1.image);}
+)
+
+(        _tokenmax_1 = <INT_VALUE>  {max_1 = Integer.parseInt(_tokenmax_1.image);}
+)
+
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.constraints.Length( min_1, max_1), (Object)min_1, max_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.constraints.Range constraints_RangeSymbol() :
+{
+  int min_1 = 0;
+  Token _tokenmin_1 = null;
+  int max_1 = 0;
+  Token _tokenmax_1 = null;
+}
+{
+((      <RANGE>
+(        _tokenmin_1 = <INT_VALUE>  {min_1 = Integer.parseInt(_tokenmin_1.image);}
+)
+
+(        _tokenmax_1 = <INT_VALUE>  {max_1 = Integer.parseInt(_tokenmax_1.image);}
+)
+
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.constraints.Range( min_1, max_1), (Object)min_1, max_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.constraints.Regex constraints_RegexSymbol() :
+{
+  java.lang.String r_1 = null;
+  Token _tokenr_1 = null;
+}
+{
+(((        _tokenr_1 = <R>  {r_1 = _tokenr_1.image;}
+)
+
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.constraints.Regex( r_1), (Object)r_1);}
+
+)
+}
+
+sk.tuke.magsa.tools.metamodel.constraints.Required constraints_RequiredSymbol() :
+{
+}
+{
+((      <REQUIRED>
+)  {return yajco.ReferenceResolver.getInstance().register(new sk.tuke.magsa.tools.metamodel.constraints.Required( ));}
+
+)
+}
+

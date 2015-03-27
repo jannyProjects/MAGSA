@@ -1,0 +1,5 @@
+
+if(object.get${generator.toUCIdent($property.name)}() == null)
+{
+    throw new ValidatorException ("This property must be define: $property.name");
+}

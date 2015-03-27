@@ -1,0 +1,10 @@
+Entity ::= (<entity> <NAME> <{> (Property (Property)*) <}>)
+Model ::= ((Entity (Entity)*) (Reference)*)
+Property ::= (<NAME> <:> Type ((constraints_Constraint ((<,> constraints_Constraint))*))?)
+Reference ::= (<reference> <NAME> <NAME>)
+Type ::= (<INTEGER> | <REAL> | <STRING>)
+constraints_Constraint ::= (constraints_Length | constraints_Required | constraints_Regex | constraints_Range)
+constraints_Length ::= (<length> <INT_VALUE> <INT_VALUE>)
+constraints_Range ::= (<range> <INT_VALUE> <INT_VALUE>)
+constraints_Regex ::= <R>
+constraints_Required ::= <required>
