@@ -1,0 +1,70 @@
+package $package;
+
+import sk.tuke.magsa.framework.*;
+import ${generator.getPackage("dao_interface")}.*;
+import ${generator.getPackage("dao_impl")}.*;
+import ${generator.getPackage("ui_table")}.*;
+
+public class $name {
+
+    
+
+    private static $name instance;
+
+    private final ConnectionPool pool = new ConnectionPool();
+
+    #foreach ($entity in $model.entities)
+    private final $generator.toUCIdent($entity.name)DaoImpl $generator.toLCIdent($entity.name) = new $generator.toUCIdent($entity.name)DaoImpl(pool);
+    #end
+
+    #foreach ($entity in $model.entities)
+    public $generator.toUCIdent($entity.name)DaoImpl get$generator.toUCIdent($entity.name)DaoImpl()
+    {
+        return $generator.toLCIdent($entity.name);
+    }
+    #end
+
+    public static $name getInstance() {
+        return instance;
+    }
+
+    private void menu() {
+ String selection = null;
+	do {
+            printMenuHeader();
+           
+		selection = Utilities.readLine();
+
+            switch (Integer.parseInt(selection)) {
+#set( $n = 1 )
+#foreach($entity in $model.entities)
+            case $n: new ${entity.name}Table().menu();
+                     break;
+#set( $n  = $n + 1 )
+#end
+            case $n: System.exit(0);
+                     break;
+
+            }
+	} while (Integer.parseInt(selection) != $n);
+
+        
+    }
+
+private void printMenuHeader() {
+#set( $number = 1 )
+#set( $tables = $model.getUi().getTables())
+
+#foreach($table in $tables)
+System.out.println("($number): $table.label");
+#set( $number = $number+1)
+#end
+System.out.println("($number): Ukoncit aplikaciu");
+System.out.println("Zadajte volbu: ");
+    }
+
+    public static void main(String[] args) {
+        instance = new $name();
+        instance.menu();
+    }    
+}

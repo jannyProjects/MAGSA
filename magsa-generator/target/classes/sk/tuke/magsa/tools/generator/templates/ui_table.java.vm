@@ -1,0 +1,52 @@
+#set( $entity = $item.entity )
+#set( $table = $item )
+package $package;
+
+import sk.tuke.magsa.framework.ui.TableDialog;
+import ${generator.formatQualifiedName(null, "app")};
+import ${generator.formatQualifiedName($table.getEntityName(), "entity_class")};
+
+public class $name extends TableDialog<${generator.formatName($table.getEntityName(), "entity_class")}> {
+    public $name() {
+        super(${generator.formatName(null, "app")}.getInstance().get${generator.formatName($table.getEntityName(), "dao_interface")}Impl());
+    }
+
+    protected ${generator.formatName(${table.editForm.name}, "ui_form")} createFormDialogForInsert() {
+        return new ${generator.formatName(${table.editForm.name}, "ui_form")}();
+    }
+
+    protected ${generator.formatName(${table.editForm.name}, "ui_form")} createFormDialogForEdit(${generator.formatName($table.getEntityName(), "entity_class")} entity) {
+        return new ${generator.formatName(${table.editForm.name}, "ui_form")}(entity);
+    }
+
+    protected void printHeader() {
+     #foreach($column in $table.columns)
+#set($type = ${generator.toUCIdent($column.getProperty().getTypeToString())})
+#if($type == "Integer" || $type == "Real")
+System.out.print(String.format(" |%5s", "$column.getLabel()"));
+#else
+System.out.print(String.format(" |%10s", "$column.getLabel()"));
+#end
+
+#end
+        System.out.println();
+    }
+
+    protected void printRow(${generator.formatName($table.getEntityName(), "entity_class")} entity) {
+          #foreach($column in $table.columns)
+#set($type = ${generator.toUCIdent($column.getProperty().getTypeToString())})
+
+#if($type == "Integer")
+System.out.print(String.format(" |%5d", entity.get${generator.toUCIdent($column.getLabel())}()));
+#else
+#if($type == "Real")
+System.out.print(String.format(" |%5f", entity.get${generator.toUCIdent($column.getLabel())}()));
+#else
+System.out.print(String.format(" |%10s", entity.get${generator.toUCIdent($column.getLabel())}()));
+#end
+#end
+
+
+#end
+    }
+}

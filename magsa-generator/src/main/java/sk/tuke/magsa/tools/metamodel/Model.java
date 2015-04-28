@@ -1,6 +1,7 @@
 package sk.tuke.magsa.tools.metamodel;
 
 import java.util.Arrays;
+import sk.tuke.magsa.tools.metamodel.ui.UI;
 import yajco.annotation.Exclude;
 import yajco.annotation.Range;
 
@@ -8,6 +9,7 @@ import yajco.annotation.Range;
 public class Model {
     private final Entity[] entities;
     private Reference[] reference = null;
+    private UI ui = null;
  
     @Exclude
     public Model(Entity[] entities) {
@@ -26,7 +28,7 @@ public class Model {
 
     @Override
     public String toString() {
-        return "model " + Arrays.toString(entities);
+        return "model " + Arrays.toString(entities) + ui;
     }
     
     public Entity findEntity(String name)
@@ -47,6 +49,20 @@ public class Model {
     public  Reference[] getReferences()
     {
         return reference;
+    }
+
+    /**
+     * @return the ui
+     */
+    public UI getUi() {
+        return ui;
+    }
+
+    /**
+     * @param ui the ui to set
+     */
+    public void setUi(UI ui) {
+        this.ui = ui;
     }
 }
  

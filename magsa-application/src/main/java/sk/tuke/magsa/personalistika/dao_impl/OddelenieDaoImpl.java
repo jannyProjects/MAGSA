@@ -19,7 +19,7 @@ public class OddelenieDaoImpl extends CRUDDaoImpl<Oddelenie> implements Oddeleni
         super(pool);
     }    
 
-    protected PreparedStatement prepareInsertStatement(Connection connection, Oddelenie object) throws SQLException {
+  protected PreparedStatement prepareInsertStatement(Connection connection, Oddelenie object) throws SQLException {
         String query = "INSERT INTO Oddelenie (nazov, kod, uroven) VALUES (?, ?, ?)";
         PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         pstm.setString(1, object.getNazov());
@@ -31,7 +31,7 @@ public class OddelenieDaoImpl extends CRUDDaoImpl<Oddelenie> implements Oddeleni
     }
 
    protected PreparedStatement prepareUpdateStatement(Connection connection, Oddelenie object) throws SQLException {
-                String query = "UPDATE Oddelenie SET nazov=?,kod=?,uroven=? WHERE ident =" + object.getIdent();
+                String query = "UPDATE Oddelenie SET nazov=?,kod=?,uroven=?  WHERE ident =" + object.getIdent();
     
   PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);  
         pstm.setString(1, object.getNazov());

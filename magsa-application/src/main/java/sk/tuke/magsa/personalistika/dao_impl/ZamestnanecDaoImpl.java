@@ -19,7 +19,7 @@ public class ZamestnanecDaoImpl extends CRUDDaoImpl<Zamestnanec> implements Zame
         super(pool);
     }    
 
-    protected PreparedStatement prepareInsertStatement(Connection connection, Zamestnanec object) throws SQLException {
+  protected PreparedStatement prepareInsertStatement(Connection connection, Zamestnanec object) throws SQLException {
         String query = "INSERT INTO Zamestnanec (meno, priezvisko, vek, ident_Oddelenie) VALUES (?, ?, ?, ?)";
         PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         pstm.setString(1, object.getMeno());
@@ -32,7 +32,7 @@ pstm.setInt(4, object.getOddelenie());
     }
 
    protected PreparedStatement prepareUpdateStatement(Connection connection, Zamestnanec object) throws SQLException {
-                String query = "UPDATE Zamestnanec SET meno=?,priezvisko=?,vek=? WHERE ident =" + object.getIdent();
+                String query = "UPDATE Zamestnanec SET meno=?,priezvisko=?,vek=? , ident_Oddelenie=? WHERE ident =" + object.getIdent();
     
   PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);  
         pstm.setString(1, object.getMeno());
@@ -70,7 +70,7 @@ PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GEN
         result.setMeno(rs.getString("meno"));
         result.setPriezvisko(rs.getString("priezvisko"));
         result.setVek(rs.getInt("vek"));
-        result.setOddelenie(rs.getInt("Oddelenie"));
+        result.setOddelenie(rs.getInt("ident_oddelenie"));
 return result;
     }
 

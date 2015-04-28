@@ -22,7 +22,7 @@ public class $name extends CRUDDaoImpl<${entityName}> implements ${generator.for
         super(pool);
     }    
 
-    protected PreparedStatement prepareInsertStatement(Connection connection, ${entityName} object) throws SQLException {
+  protected PreparedStatement prepareInsertStatement(Connection connection, ${entityName} object) throws SQLException {
 #set($str = "")
         String query = "INSERT INTO $item.name (#foreach($property in $item.properties)$property.name#set($str="${str}?")#if($velocityHasNext)#set($str="${str}, "), #end#end#foreach($reference in $item.outgoingReferences), ident_${reference.to.name}#set($str="${str}, ?")#end) VALUES ($str)";
         PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -32,10 +32,9 @@ public class $name extends CRUDDaoImpl<${entityName}> implements ${generator.for
 #set( $n  = $n + 1 )
 #end
 
-#set( $x = 1 )
 #foreach($reference in $item.outgoingReferences)
 pstm.setInt($n, object.get${generator.toUCIdent($reference.to.name)}());
-#set( $x  = $x + 1 )
+#set( $n  = $n + 1 )
 #end
 
         return pstm;
@@ -43,7 +42,7 @@ pstm.setInt($n, object.get${generator.toUCIdent($reference.to.name)}());
 
    protected PreparedStatement prepareUpdateStatement(Connection connection, ${entityName} object) throws SQLException {
         #set($str = "")
-        String query = "UPDATE $item.name SET #foreach($property in $item.properties)$property.name=?#if($velocityHasNext),#end#end WHERE ident =" + object.getIdent();
+        String query = "UPDATE $item.name SET #foreach($property in $item.properties)$property.name=?#if($velocityHasNext),#end#end #foreach($reference in $item.outgoingReferences), ident_${reference.to.name}=?#end WHERE ident =" + object.getIdent();
     
   PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);  
 #set( $n = 1 )
@@ -89,7 +88,7 @@ PreparedStatement pstm = connection.prepareStatement(query, Statement.RETURN_GEN
         result.set${generator.toUCIdent($property.name)}(rs.${generator.rsGetMethod($property.type)}("$property.name"));
 #end
 #foreach($reference in $item.outgoingReferences)
-        result.set${generator.toUCIdent($reference.to.name)}(rs.getInt("$reference.to.name"));
+        result.set${generator.toUCIdent($reference.to.name)}(rs.getInt("ident_${generator.toLCIdent($reference.to.name)}"));
 #end
 return result;
     }

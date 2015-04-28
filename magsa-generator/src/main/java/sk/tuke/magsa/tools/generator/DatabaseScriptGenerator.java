@@ -88,10 +88,10 @@ public class DatabaseScriptGenerator extends Generator {
                                  
                                  out.printf(",\n %s VARCHAR(%d)", entity.getProperties()[count].getName(),maxLength);   
                                  
-                                 if(minLength != 0)
+                                /* if(minLength != 0)
                                  {
                                      out.printf("CHECK(>%d)",minLength);
-                                 }
+                                 }*/
                              }
                          }
                          else

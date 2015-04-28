@@ -42,6 +42,11 @@ public class Property implements Named {
     {
         return this.typ;
     }
+    
+    public String getTypeToString()
+    {
+        return this.typ.toString().toLowerCase();
+    }
 
     @Override
     public String toString() {

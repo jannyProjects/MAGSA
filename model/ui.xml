@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://kpi.fei.tuke.sk/magsa"
+    xsi:schemaLocation="http://kpi.fei.tuke.sk/magsa ui.xsd">
+    <form name="OddelenieForm" entity="Oddelenie" label="Oddelenie">
+        <field property="nazov" />
+        <field property="kod" />
+    </form>
+
+    <form name="ZamestnanecForm" entity="Zamestnanec" label="Zamestnanec">
+        <field property="priezvisko" />
+        <field property="meno" />
+        <field property="vek" />
+        <lookupField property="nazov" table="OddelenieTable"/>
+    </form>
+
+    <table name="OddelenieTable" entity="Oddelenie" label="Oddelenia" editFormDialog="OddelenieForm">
+        <column property="nazov" />
+        <column property="kod" />
+    </table>
+
+    <table name="ZamestnanecTable" entity="Zamestnanec" label="Zamestnanci"  editFormDialog="ZamestnanecForm">
+        <column property="priezvisko" label="Priezvisko" />
+        <column property="meno" label="Meno" />
+        <column property="vek" label="Vek" />
+        <lookupColumn property="nazov" entity="Oddelenie" label="Oddelenie" />
+    </table>
+</ui>
