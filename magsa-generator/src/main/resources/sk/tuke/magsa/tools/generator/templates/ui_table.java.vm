@@ -48,5 +48,6 @@ System.out.print(String.format(" |%10s", entity.get${generator.toUCIdent($column
 
 
 #end
+System.out.println();
     }
 }

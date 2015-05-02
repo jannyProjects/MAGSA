@@ -1,0 +1,12 @@
+
+if(entity.get${generator.toUCIdent($propName)}() != null)
+{
+    if(entity.get${generator.toUCIdent($propName)}() > $constraint.getMinValue() &&
+        entity.get${generator.toUCIdent($propName)}() > $constraint.getMaxValue())
+        {
+        }
+    else
+    {
+        throw new ValidatorException ("Out of range: $property.name");
+    }
+}

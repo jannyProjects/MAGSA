@@ -52,7 +52,7 @@ public abstract class TableDialog<T extends Entity> {
         System.out.println("(5) Return");
         System.out.println("Enter selection: ");
     }
-
+    
     public void display() {
         printTable(dao.selectAll());
     }

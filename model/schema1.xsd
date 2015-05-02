@@ -4,46 +4,28 @@
   <xs:element name="ui" type="tns:ui"/>
 
   <xs:complexType name="column">
-    <xs:complexContent>
-      <xs:extension base="tns:component">
-        <xs:sequence/>
-        <xs:attribute name="length" type="xs:int"/>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence/>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="length" type="xs:int"/>
+    <xs:attribute name="property" type="xs:string" use="required"/>
   </xs:complexType>
 
-  <xs:complexType name="component" abstract="true">
+  <xs:complexType name="field">
     <xs:sequence/>
     <xs:attribute name="label" type="xs:string"/>
     <xs:attribute name="property" type="xs:string" use="required"/>
   </xs:complexType>
 
-  <xs:complexType name="dialog" abstract="true">
-    <xs:sequence/>
+  <xs:complexType name="form">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="field" type="tns:field"/>
+        <xs:element name="lookupField" type="tns:lookupField"/>
+      </xs:choice>
+    </xs:sequence>
     <xs:attribute name="entity" type="xs:string" use="required"/>
     <xs:attribute name="label" type="xs:string" use="required"/>
     <xs:attribute name="name" type="xs:ID" use="required"/>
-  </xs:complexType>
-
-  <xs:complexType name="field">
-    <xs:complexContent>
-      <xs:extension base="tns:component">
-        <xs:sequence/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="form">
-    <xs:complexContent>
-      <xs:extension base="tns:dialog">
-        <xs:sequence>
-          <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="field" type="tns:field"/>
-            <xs:element name="lookupField" type="tns:lookupField"/>
-          </xs:choice>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="lookupField">
@@ -56,17 +38,16 @@
   </xs:complexType>
 
   <xs:complexType name="table">
-    <xs:complexContent>
-      <xs:extension base="tns:dialog">
-        <xs:sequence>
-          <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="column" type="tns:column"/>
-            <xs:element name="lookupColumn" type="tns:lookupColumn"/>
-          </xs:choice>
-        </xs:sequence>
-        <xs:attribute name="editFormDialog" type="xs:IDREF" use="required"/>
-      </xs:extension>
-    </xs:complexContent>
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="column" type="tns:column"/>
+        <xs:element name="lookupColumn" type="tns:lookupColumn"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="editFormDialog" type="xs:IDREF" use="required"/>
+    <xs:attribute name="entity" type="xs:string" use="required"/>
+    <xs:attribute name="label" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:ID" use="required"/>
   </xs:complexType>
 
   <xs:complexType name="lookupColumn">

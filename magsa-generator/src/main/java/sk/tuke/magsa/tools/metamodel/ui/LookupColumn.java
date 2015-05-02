@@ -9,12 +9,12 @@ public class LookupColumn extends Column {
 
     private Entity entity;
 
-
+    @XmlAttribute(name = "entity", required = true)
     public String getEntityName() {
         return entityName;
     }
 
-    @XmlAttribute(name = "entity", required = true)
+    //@XmlAttribute(name = "entity", required = true)
     public void setEntityName(String entityName) {
         this.entityName = entityName;
     }

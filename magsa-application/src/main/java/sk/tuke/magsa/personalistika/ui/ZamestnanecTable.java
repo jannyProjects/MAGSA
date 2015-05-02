@@ -33,17 +33,18 @@ System.out.print(String.format(" |%10s", "Oddelenie"));
           
 System.out.print(String.format(" |%10s", entity.getPriezvisko()));
 
-System.out.println();
+
 
 System.out.print(String.format(" |%10s", entity.getMeno()));
 
-System.out.println();
+
 
 System.out.print(String.format(" |%5d", entity.getVek()));
 
-System.out.println();
+
 
 System.out.print(String.format(" |%10s", entity.getOddelenie()));
+
 
 System.out.println();
     }

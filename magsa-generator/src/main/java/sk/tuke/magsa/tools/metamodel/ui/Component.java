@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import sk.tuke.magsa.tools.metamodel.Property;
 
-
+@XmlTransient
 public abstract class Component {
     private String propertyName;
 
@@ -36,7 +36,7 @@ public abstract class Component {
     }
 
 
-     @XmlTransient
+    @XmlTransient
     public Property getProperty() {
         return property;
     }

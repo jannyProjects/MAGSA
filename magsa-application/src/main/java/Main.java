@@ -40,12 +40,12 @@ public class Main {
         od.setUroven(3.3);
         odImpl.create(od);*/
         
-        /*zam.setIdent(1);
+        zam.setIdent(1);
         zam.setOddelenie(1);
         zam.setMeno("Silvia");
         zam.setPriezvisko("Burikova");
         zam.setVek(22);
-        zamIml.create(zam);*/
+        zamIml.create(zam);
        //////////////////UPDATE///////////////////////////////////
         /*zam.setIdent(1);
         zam.setOddelenie(1);

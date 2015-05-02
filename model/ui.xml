@@ -6,6 +6,7 @@
     <form name="OddelenieForm" entity="Oddelenie" label="Oddelenie">
         <field property="nazov" />
         <field property="kod" />
+        <field property="uroven" />
     </form>
 
     <form name="ZamestnanecForm" entity="Zamestnanec" label="Zamestnanec">
@@ -18,6 +19,7 @@
     <table name="OddelenieTable" entity="Oddelenie" label="Oddelenia" editFormDialog="OddelenieForm">
         <column property="nazov" />
         <column property="kod" />
+        <column property="uroven" />
     </table>
 
     <table name="ZamestnanecTable" entity="Zamestnanec" label="Zamestnanci"  editFormDialog="ZamestnanecForm">

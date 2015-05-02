@@ -22,6 +22,8 @@ public class OddelenieTable extends TableDialog<Oddelenie> {
 
 System.out.print(String.format(" |%10s", "kod"));
 
+System.out.print(String.format(" |%5s", "uroven"));
+
         System.out.println();
     }
 
@@ -29,9 +31,14 @@ System.out.print(String.format(" |%10s", "kod"));
           
 System.out.print(String.format(" |%10s", entity.getNazov()));
 
-System.out.println();
+
 
 System.out.print(String.format(" |%10s", entity.getKod()));
+
+
+
+System.out.print(String.format(" |%5f", entity.getUroven()));
+
 
 System.out.println();
     }

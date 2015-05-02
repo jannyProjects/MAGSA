@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import sk.tuke.magsa.tools.metamodel.Entity;
 import sk.tuke.magsa.tools.metamodel.Named;
 
-
+@XmlTransient
 public abstract class Dialog implements Named {
     private String name;
 

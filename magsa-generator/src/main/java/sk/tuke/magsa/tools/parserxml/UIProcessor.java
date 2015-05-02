@@ -59,19 +59,21 @@ public class UIProcessor {
         for(Dialog d : dialogs)
         {
             Entity entita = model.findEntity(d.getEntityName());
+            System.out.println("ENTITA "+d.getEntityName());
             if(entita == null)
             {
                 throw new UIProcessingException("Entita return NULL!");
             }
             for (Component c : d.getComponents())
-            {
-                if(c instanceof LookupField)
-                {
+            {               
+                
+               if(c instanceof LookupField)
+                { //System.out.println("LOOPUPFIELD");
                     
                     LookupField field = (LookupField) c;
                     field.getTable().setEntity(model.findEntity(field.getTable().getEntityName()));
                     prop = field.getTable().getEntity().findProperty(c.getPropertyName());
-                    
+                    System.out.println("FPROP:"+c.getPropertyName());
                     if(prop != null)
                     {
                         field.setProperty(prop);
@@ -83,10 +85,11 @@ public class UIProcessor {
                 }
                 else if (c instanceof LookupColumn)
                 {
+                    //System.out.println("LOOPUPC");
                     LookupColumn column = (LookupColumn) c;
                     column.setEntity(model.findEntity(column.getEntityName()));
                     prop = column.getEntity().findProperty(c.getPropertyName());
-                    
+                    System.out.println("CPROP:"+c.getPropertyName());
                     if(prop != null)
                     {
                         column.setProperty(prop);
@@ -98,6 +101,7 @@ public class UIProcessor {
                 }
                 else
                 {
+                    System.out.println("PROP:"+c.getPropertyName());
                     prop = entita.findProperty(c.getPropertyName());
                     if (prop != null) 
                     {

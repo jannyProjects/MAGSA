@@ -10,7 +10,7 @@ import ${generator.formatQualifiedName($form.getEntityName() , "entity_class")};
 
 public class $name extends FormDialog<$form.getEntityName()>{
 
-#set( $constraintsDir = "/sk/tuke/magsa/tools/generator/templates/constraint/" )
+#set( $constraintsDir = "/sk/tuke/magsa/tools/generator/templates/ui/constraints/" )
 
     public $name() {
         super(new $form.getEntityName()());
@@ -22,49 +22,101 @@ public class $name extends FormDialog<$form.getEntityName()>{
 
     public $form.getEntityName() show() {
         String input;
+
 #foreach($field in $form.getFields())
+////////////
+#if($field.getClass().getSimpleName() == "LookupField")
+#set($refereceName = $field.getTable().getEntity().getName())
+
+Integer ref_$refereceName = entity.get${generator.toUCIdent($refereceName)}();
+
+do{
+    try{
+    System.out.print(String.format("Enter reference ID [%s]: ", "$refereceName"));
+    input = Utilities.readLine();
+
+if(!"".equals(input)) 
+    {
+        ref_$refereceName = Integer.valueOf(input);
+    }
+if( ref_$refereceName ==null)
+    {
+        throw new ValidatorException("Property reference is required!");
+    }
+
+break;
+}
+catch (NumberFormatException e)
+{
+    System.out.println("Cannot parse the entered value!");
+} 
+catch (ValidatorException e) 
+{
+    System.out.println(e.getMessage());
+}
+}while(true);
+entity.set${generator.toUCIdent($refereceName)}(ref_$refereceName);
+
+//////////////////////////////////////////
+#else
 
 #set($type = ${generator.toUCIdent($field.getProperty().getTypeToString())})
 #set($propName = $field.getPropertyName())
 
-$type $propName = entity.get${generator.toUCIdent($propName)}();
-
-do {
-        try {
-            System.out.print(String.format("Enter nazov [%s]: ", entity.get${generator.toUCIdent($propName)}()));
-            input = Utilities.readLine();
-            if(!"".equals(input)) {
-#if($type == "Integer")
-$propName = Integer.valueOf(input);
-#else
 #if($type == "Real")
-$propName = Double.valueOf(input);
+Double $propName = entity.get${generator.toUCIdent($propName)}();
 #else
-$propName = input;
+$type $propName = entity.get${generator.toUCIdent($propName)}();
 #end
-#end
-                
-            }
-            
+
+
+
+do{
+    try {
+        System.out.print(String.format("Enter $propName [%s]: ", entity.get${generator.toUCIdent($propName)}()));
+        input = Utilities.readLine();
+        if(!"".equals(input)) 
+        {
+            #if($type == "Integer")
+            $propName = Integer.valueOf(input);
+            #else
+            #if($type == "Real")
+            $propName = Double.valueOf(input);
+            #else
+            $propName = input;
+            #end
+            #end                
+        }
+  
 #set($inputFile="null")
 #foreach($constraint in $field.getProperty().constraints)
 
-##set( $inputFile = $constraintsDir + $constraint.getClass().getSimpleName() + ".vm" )
-##parse( $inputFile )
+#set( $inputFile = $constraintsDir + $constraint.getClass().getSimpleName() + ".vm" )
+#parse( $inputFile )
 #end
 
 
             
-            break;
-        } catch (NumberFormatException e) {
-            System.out.println("Cannot parse the entered value!");
-        } catch (ValidatorException e) {
-            System.out.println(e.getMessage());
-        }
+        break;
+        } 
+catch (NumberFormatException e) 
+{
+    System.out.println("Cannot parse the entered value!");
+} 
+catch (ValidatorException e) 
+{
+    System.out.println(e.getMessage());
+}
     } while (true);
+
     entity.set${generator.toUCIdent($propName)}($propName);
 
 #end
+#end
+///////////////
+
+
+
 
         return entity;
     }

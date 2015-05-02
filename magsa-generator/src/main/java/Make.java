@@ -6,6 +6,7 @@ import sk.tuke.magsa.tools.generator.CollectionTemplateGenerator;
 import sk.tuke.magsa.tools.generator.DatabaseScriptGenerator;
 
 import sk.tuke.magsa.tools.metamodel.*;
+import sk.tuke.magsa.tools.metamodel.ui.Dialog;
 import sk.tuke.magsa.tools.metamodel.ui.Form;
 import sk.tuke.magsa.tools.metamodel.ui.Table;
 import sk.tuke.magsa.tools.parser.*;
@@ -58,6 +59,7 @@ public class Make {
         new DatabaseScriptGenerator(model).generate();
         
          new ApplicationGenerator(model).generate();
+         
 
     }
 }

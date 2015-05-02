@@ -1,0 +1,4 @@
+if($propName == null)
+{
+    throw new ValidatorException ("This property must be define: $field.getPropertyName()");
+}

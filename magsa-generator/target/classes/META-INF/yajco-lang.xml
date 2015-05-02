@@ -328,6 +328,22 @@
       <patterns/>
     </yajco.model.Concept>
     <yajco.model.Concept>
+      <name>constraints.Required</name>
+      <parent reference="../../yajco.model.Concept/abstractSyntax/yajco.model.Property/type/componentType/concept/abstractSyntax/yajco.model.Property[2]/type/componentType/concept/abstractSyntax/yajco.model.Property[3]/type/componentType/concept"/>
+      <abstractSyntax/>
+      <concreteSyntax>
+        <yajco.model.Notation>
+          <parts>
+            <yajco.model.TokenPart>
+              <token>required</token>
+            </yajco.model.TokenPart>
+          </parts>
+          <patterns/>
+        </yajco.model.Notation>
+      </concreteSyntax>
+      <patterns/>
+    </yajco.model.Concept>
+    <yajco.model.Concept>
       <name>constraints.Range</name>
       <parent reference="../../yajco.model.Concept/abstractSyntax/yajco.model.Property/type/componentType/concept/abstractSyntax/yajco.model.Property[2]/type/componentType/concept/abstractSyntax/yajco.model.Property[3]/type/componentType/concept"/>
       <abstractSyntax>
@@ -368,22 +384,6 @@
                 </yajco.model.pattern.impl.Token>
               </patterns>
             </yajco.model.PropertyReferencePart>
-          </parts>
-          <patterns/>
-        </yajco.model.Notation>
-      </concreteSyntax>
-      <patterns/>
-    </yajco.model.Concept>
-    <yajco.model.Concept>
-      <name>constraints.Required</name>
-      <parent reference="../../yajco.model.Concept/abstractSyntax/yajco.model.Property/type/componentType/concept/abstractSyntax/yajco.model.Property[2]/type/componentType/concept/abstractSyntax/yajco.model.Property[3]/type/componentType/concept"/>
-      <abstractSyntax/>
-      <concreteSyntax>
-        <yajco.model.Notation>
-          <parts>
-            <yajco.model.TokenPart>
-              <token>required</token>
-            </yajco.model.TokenPart>
           </parts>
           <patterns/>
         </yajco.model.Notation>
@@ -443,8 +443,8 @@
     </yajco.model.SkipDef>
   </skips>
   <settings>
-    <property name="yajco.mainNode" value="Model"/>
     <property name="yajco.generator.classgen.ClassGenerator" value="false"/>
+    <property name="yajco.mainNode" value="Model"/>
     <property name="yajco.className" value="sk.tuke.magsa.tools.parserext.Parser"/>
   </settings>
 </yajco.model.Language>

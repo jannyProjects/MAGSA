@@ -28,7 +28,7 @@ public class Model {
 
     @Override
     public String toString() {
-        return "model " + Arrays.toString(entities) + ui;
+        return "model " + Arrays.toString(entities) + "\n ui "+ui;
     }
     
     public Entity findEntity(String name)
